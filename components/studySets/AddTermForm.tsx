@@ -1,30 +1,27 @@
 import { useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 
-interface setInfo {
-  id: number;
-  getStudySet(): void;
-}
+import { SetInfo } from "./Show";
 
-export default function AddTermForm({ id, getStudySet }: setInfo) {
-  const [term, setTerm] = useState<string | null>(null);
-  const [definition, setDefinition] = useState<string | null>(null);
+export default function AddTermForm({ id, GetStudySet }: SetInfo) {
+  const [term, SetTerm] = useState<string | null>(null);
+  const [definition, SetDefinition] = useState<string | null>(null);
 
-  function handelTermChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function HandelTermChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    setTerm(e.target.value);
+    SetTerm(e.target.value);
   }
 
-  function handelDefinitionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  function HandelDefinitionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     e.preventDefault();
-    setDefinition(e.target.value);
+    SetDefinition(e.target.value);
   }
 
   async function AddTerm(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     try {
       const { data, error } = await supabase
-        .from("termAndDefnitions")
+        .from("termAndDefinitions")
         .insert([{ term: term, definition: definition, set_Id: id }]);
       if (error) {
         throw error;
@@ -32,9 +29,9 @@ export default function AddTermForm({ id, getStudySet }: setInfo) {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setTerm("");
-      setDefinition("");
-      getStudySet();
+      SetTerm("");
+      SetDefinition("");
+      GetStudySet();
     }
   }
 
@@ -52,7 +49,7 @@ export default function AddTermForm({ id, getStudySet }: setInfo) {
             id="inline-full-name"
             type="text"
             value={term}
-            onChange={handelTermChange}
+            onChange={HandelTermChange}
           />
         </div>
         <div className="md:w-1/3">
@@ -65,7 +62,7 @@ export default function AddTermForm({ id, getStudySet }: setInfo) {
             className=" border-b-2   py-2 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-yellow"
             id="inline-full-name"
             value={definition}
-            onChange={handelDefinitionChange}
+            onChange={HandelDefinitionChange}
           />
         </div>
 

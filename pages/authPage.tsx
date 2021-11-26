@@ -1,25 +1,20 @@
 import Auth from "../components/Auth";
-import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Router from "next/router";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 export default function AuthPage() {
-  const [session, setSession] = useState<Session>(null);
+  const [UserSession, setUserSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    setSession(supabase.auth.session());
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    setUserSession(supabase.auth.session());
   }, []);
 
   return (
     <div>
       <></>
 
-      {!session ? <Auth /> : Router.back()}
+      {!UserSession ? <Auth /> : Router.back()}
     </div>
   );
 }

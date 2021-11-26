@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../utils/supabaseClient";
-import AddTearmForm from "./AddTermForm";
+import AddTermForm from "./AddTermForm";
 import Router from "next/router";
 
-interface setInfo {
+export interface SetInfo {
   id: number;
-  name: string;
+  name?: string;
+  GetStudySet?: any;
 }
+
 interface Set {
   id?: number;
   set_Id?: number;
@@ -14,31 +16,32 @@ interface Set {
   definition?: string;
 }
 
-export default function Show({ id, name }: setInfo) {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [studySet, setStudySet] = useState<Array<Set | null>>(null);
-  const [sets, setSets] = useState<Array<setInfo | null>>(null);
+export default function Show({ id, name }: SetInfo) {
+  const [loading, SetLoading] = useState<boolean>(false);
+  const [studySet, SetStudySet] = useState<Array<Set | null>>(null);
+  const [sets, SetSets] = useState<Array<SetInfo | null>>(null);
 
-  async function getStudySet() {
+  async function GetStudySet() {
     try {
-      setLoading(true);
-      const termAndDefnitions = await supabase
-        .from<Set>("termAndDefnitions")
+      SetLoading(true);
+      const termAndDefinitions = await supabase
+        .from<Set>("termAndDefinitions")
         .select("*")
         .eq("set_Id", id);
-      setStudySet(termAndDefnitions.data);
+      SetStudySet(termAndDefinitions.data);
     } catch (error) {
       console.error(error.message);
     } finally {
-      setLoading(false);
+      SetLoading(false);
     }
+    return Promise.resolve();
   }
 
-  async function deleteterm(id: number) {
+  async function DeleteTerm(id: number) {
     try {
-      setLoading(true);
+      SetLoading(true);
       const { data, error } = await supabase
-        .from("termAndDefnitions")
+        .from("termAndDefinitions")
         .delete()
         .eq("id", id);
       if (error) {
@@ -47,16 +50,19 @@ export default function Show({ id, name }: setInfo) {
     } catch (error) {
       alert(error.message);
     } finally {
-      setLoading(false);
-      getStudySet();
+      SetLoading(false);
+      GetStudySet();
     }
   }
 
-  async function updateSet(e, id) {
+  async function UpdateSet(
+    e: React.ChangeEvent<HTMLSelectElement>,
+    id: number
+  ) {
     try {
-      setLoading(true);
+      SetLoading(true);
       const { data, error } = await supabase
-        .from("termAndDefnitions")
+        .from("termAndDefinitions")
         .update({ set_Id: e.currentTarget.value })
         .eq("id", id);
       if (error) {
@@ -65,24 +71,23 @@ export default function Show({ id, name }: setInfo) {
     } catch (error) {
       console.error(error.message);
     } finally {
-      setLoading(false);
-      getStudySet();
+      SetLoading(false);
+      GetStudySet();
     }
   }
 
-  async function getSets() {
+  async function GetSets() {
     const user = supabase.auth.user();
     let { data: studySets, error } = await supabase
       .from("studySets")
       .select("id,name")
       .eq("user_id", user.id);
-    setSets(studySets);
+    SetSets(studySets);
   }
 
   useEffect(() => {
-    getStudySet();
-    getSets();
-    console.log(id);
+    GetStudySet();
+    GetSets();
   }, []);
 
   return (
@@ -98,9 +103,9 @@ export default function Show({ id, name }: setInfo) {
           {name}
         </h1>
 
-        <AddTearmForm id={id} getStudySet={getStudySet} />
+        <AddTermForm id={id} GetStudySet={GetStudySet} />
         {loading || !studySet ? (
-          <p>Loding</p>
+          <p>loading</p>
         ) : (
           studySet.map((set) => (
             <div
@@ -119,13 +124,13 @@ export default function Show({ id, name }: setInfo) {
                 <div className="inline-block relative w-50">
                   <select
                     className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                    onChange={(e) => updateSet(e, set.id)}>
+                    onChange={(e) => UpdateSet(e, set.id)}>
                     <option>Move to</option>
                     {sets
-                      ? sets.map((wholeset) => (
-                          <option value={wholeset.id} key={wholeset.id}>
+                      ? sets.map((WholeSet) => (
+                          <option value={WholeSet.id} key={WholeSet.id}>
                             {" "}
-                            {wholeset.name}
+                            {WholeSet.name}
                           </option>
                         ))
                       : null}
@@ -141,10 +146,10 @@ export default function Show({ id, name }: setInfo) {
                 </div>
 
                 <input
-                  className="block w-full text-center mt-5 h-6 px-2 text-sm text-white transition-colors bg-gray-600 rounded-lg cursor-pointer focus:shadow-outline hover:bg-red-700"
+                  className="block  text-center mt-5 h-6 px-2 text-sm text-white transition-colors bg-gray-600 rounded-lg cursor-pointer focus:shadow-outline hover:bg-red-70 lg:w-full w-50"
                   type="submit"
                   value="X"
-                  onClick={() => deleteterm(set.id)}
+                  onClick={() => DeleteTerm(set.id)}
                 />
               </div>
             </div>

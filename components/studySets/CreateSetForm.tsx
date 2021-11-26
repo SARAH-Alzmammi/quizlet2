@@ -4,17 +4,17 @@ import { supabase } from "../../utils/supabaseClient";
 export default function CreateSetForm() {
   const user = supabase.auth.user();
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [studySetName, setStudySetName] = useState<String | null>(null);
+  const [loading, SetLoading] = useState<boolean>(false);
+  const [studySetName, SetStudySetName] = useState<String | null>(null);
 
-  function handelNameChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setStudySetName(e.target.value);
+  function HandelNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    SetStudySetName(e.target.value);
     e.preventDefault();
   }
 
-  async function createStudySets() {
+  async function CreateStudySets() {
     try {
-      setLoading(true);
+      SetLoading(true);
       const { data, error } = await supabase
         .from("studySets")
         .insert([{ name: studySetName, user_id: user.id }]);
@@ -25,12 +25,12 @@ export default function CreateSetForm() {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setLoading(false);
+      SetLoading(false);
       window.location.reload();
     }
   }
   if (loading) {
-    return <p>Loding</p>;
+    return <p>loading</p>;
   } else {
     return (
       <form className="w-full max-w-sm">
@@ -48,12 +48,12 @@ export default function CreateSetForm() {
                 id="inline-full-name"
                 type="text"
                 placeholder="Enter a title"
-                onChange={handelNameChange}
+                onChange={HandelNameChange}
               />
             </div>
             <button
               className="h-9 px-5 m-2 text-white transition-colors    bg-cyan rounded-lg focus:shadow-outline hover:bg-yellow"
-              onClick={createStudySets}>
+              onClick={CreateStudySets}>
               Create
             </button>
           </div>

@@ -1,7 +1,6 @@
-import "tailwindcss/tailwind.css";
 import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
-import Show from "../components/studySets/Show";
+import Show from "../components/StudySets/Show";
 
 export default function DisplaySet() {
   const router = useRouter();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Link from "next/link";
-import CreateSetForm from "./studySets/CreateSetForm";
+import CreateSetForm from "./StudySets/CreateSetForm";
 
 interface setInfo {
   id: number;
@@ -9,30 +9,30 @@ interface setInfo {
 }
 export default function Dashboard() {
   const user = supabase.auth.user();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, SetLoading] = useState<boolean>(false);
 
-  const [studySets, setStudySets] = useState<Array<setInfo>>(null);
+  const [studySets, SetStudySets] = useState<Array<setInfo>>(null);
 
-  async function getStudySets() {
+  async function GetStudySets() {
     try {
-      setLoading(true);
+      SetLoading(true);
       let studySets = await supabase
         .from("studySets")
         .select("id,name")
         .eq("user_id", user.id);
-      setStudySets(studySets.data);
+      SetStudySets(studySets.data);
     } catch (error) {
       console.error(error.message);
     } finally {
-      setLoading(false);
+      SetLoading(false);
     }
   }
 
-  async function deleteStudySets(id) {
+  async function DeleteStudySets(id: number) {
     try {
-      setLoading(true);
-      const termAndDefnitionsRow = await supabase
-        .from("termAndDefnitions")
+      SetLoading(true);
+      const TermAndDefinitions = await supabase
+        .from("termAndDefinitions")
         .delete()
         .eq("set_Id", id);
 
@@ -43,13 +43,13 @@ export default function Dashboard() {
     } catch (error) {
       console.log(error.message);
     } finally {
-      setLoading(false);
-      getStudySets();
+      SetLoading(false);
+      GetStudySets();
     }
   }
 
   useEffect(() => {
-    getStudySets();
+    GetStudySets();
   }, []);
 
   return (
@@ -68,7 +68,7 @@ export default function Dashboard() {
                   <h1 className="text-lg">
                     <Link
                       href={{
-                        pathname: "/displaySet",
+                        pathname: "/DisplaySet",
                         query: { id: set.id, name: set.name }
                       }}>
                       <a className="no-underline hover:underline text-black">
@@ -80,7 +80,7 @@ export default function Dashboard() {
                     className="h-6 px-2 text-sm text-white transition-colors duration-150 bg-red-600 rounded-lg cursor-pointer focus:shadow-outline hover:bg-red-700"
                     type="submit"
                     value="X"
-                    onClick={() => deleteStudySets(set.id)}
+                    onClick={() => DeleteStudySets(set.id)}
                   />
                 </header>
               </article>

@@ -1,22 +1,21 @@
 import { useState } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Router from "next/router";
-import "tailwindcss/tailwind.css";
 
 export default function Auth() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const [loading, SetLoading] = useState<boolean>(false);
+  const [email, SetEmail] = useState<string>("");
 
   const handleLogin = async (email: string) => {
     try {
-      setLoading(true);
+      SetLoading(true);
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
       alert("Check your email for the login link!");
     } catch (error) {
       alert(error.error_description || error.message);
     } finally {
-      setLoading(false);
+      SetLoading(false);
       Router.back();
     }
   };
@@ -37,7 +36,7 @@ export default function Auth() {
         type="email"
         placeholder="Your email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => SetEmail(e.target.value)}
       />
 
       <button

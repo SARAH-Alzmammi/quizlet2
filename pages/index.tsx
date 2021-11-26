@@ -1,20 +1,14 @@
 import Link from "next/link";
-import "tailwindcss/tailwind.css";
-
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Navbar from "../components/Navbar";
 import { Session } from "@supabase/gotrue-js/src/lib/types";
 
 export default function Home() {
-  const [session, setSession] = useState<Session>(null);
+  const [UserSession, SetUserSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    setSession(supabase.auth.session());
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    SetUserSession(supabase.auth.session());
   }, []);
 
   return (
@@ -31,10 +25,10 @@ export default function Home() {
             at your fingertips.
           </p>
         </div>
-        {!session ? (
+        {!UserSession ? (
           <Link
             href={{
-              pathname: "/authPage"
+              pathname: "/AuthPage"
             }}>
             <a className="h-7 px-3 m-2 text-white transition-colors    bg-cyan rounded-lg focus:shadow-outline hover:bg-gray-800">
               Login/Sign Up
@@ -43,7 +37,7 @@ export default function Home() {
         ) : (
           <Link
             href={{
-              pathname: "/dashboardPage"
+              pathname: "/DashboardPage"
             }}>
             <a className="h-7 px-3 m-2 text-white transition-colors    bg-yellow rounded-lg focus:shadow-outline hover:bg-cyan">
               Dashboard
