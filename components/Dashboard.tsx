@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabaseClient";
 import Link from "next/link";
 import CreateSetForm from "./StudySets/CreateSetForm";
-
 interface setInfo {
   id: number;
   name: string;
