@@ -67,7 +67,7 @@ export default function Dashboard() {
                   <h1 className="text-lg">
                     <Link
                       href={{
-                        pathname: "/DisplaySet",
+                        pathname: "/displaySet",
                         query: { id: set.id, name: set.name }
                       }}>
                       <a className="no-underline hover:underline text-black">

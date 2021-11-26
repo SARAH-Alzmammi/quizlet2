@@ -28,7 +28,7 @@ export default function Home() {
         {!UserSession ? (
           <Link
             href={{
-              pathname: "/AuthPage"
+              pathname: "/authPage"
             }}>
             <a className="h-7 px-3 m-2 text-white transition-colors    bg-cyan rounded-lg focus:shadow-outline hover:bg-gray-800">
               Login/Sign Up
@@ -37,7 +37,7 @@ export default function Home() {
         ) : (
           <Link
             href={{
-              pathname: "/DashboardPage"
+              pathname: "/dashboardPage"
             }}>
             <a className="h-7 px-3 m-2 text-white transition-colors    bg-yellow rounded-lg focus:shadow-outline hover:bg-cyan">
               Dashboard

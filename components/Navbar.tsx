@@ -19,13 +19,13 @@ export default function Navbar() {
       </div>
 
       {!UserSession ? (
-        <Link href={{ pathname: "/AuthPage" }}>
+        <Link href={{ pathname: "/authPage" }}>
           <a className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-green mr-4 h-7 px-5 m-2  bg-yellow rounded-lg focus:shadow-outline">
             Login/Sign Up
           </a>
         </Link>
       ) : (
-        <Link href={{ pathname: "/DashboardPage" }}>
+        <Link href={{ pathname: "/dashboardPage" }}>
           <a className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-green mr-4 border-b-2 border-yellow">
             Dashboard
           </a>
