@@ -17,7 +17,7 @@ export default function Home() {
       <div className="flex flex-col flex-wrap  p-10 mt-14  justify-between content-center">
         <div className="flex-initial ">
           <h2 className=" text-4xl mb-5 text-gray-700">
-            Learn it. Own it. Quizlet.
+            Learn it. Own it.Quizlet.
           </h2>
           <p>
             With new expert explanations, an AI Learning Assistant and our

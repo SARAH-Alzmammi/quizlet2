@@ -13,7 +13,6 @@ export default function AuthPage() {
   return (
     <div>
       <></>
-
       {!UserSession ? <Auth /> : Router.back()}
     </div>
   );
